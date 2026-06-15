@@ -1,286 +1,188 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Focus & Ideas Hub</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🐶 Pet the Dog Ultra</title>
 
 <style>
-:root{
-    --bg:#0f172a;
-    --card:#1e293b;
-    --accent:#38bdf8;
-    --accent2:#818cf8;
-    --text:#f8fafc;
-    --success:#22c55e;
-}
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #fff3c4, #ffcc80);
+    font-family: Arial, sans-serif;
+    user-select: none;
+    overflow: hidden;
+  }
 
-.light{
-    --bg:#f1f5f9;
-    --card:#ffffff;
-    --text:#0f172a;
-}
+  .container {
+    text-align: center;
+  }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI, sans-serif;
-}
+  .dog {
+    font-size: 140px;
+    transition: transform 0.3s;
+  }
 
-body{
-    background:linear-gradient(135deg,var(--bg),#111827);
-    color:var(--text);
-    min-height:100vh;
-    transition:0.4s;
-}
+  .happy { transform: scale(1.1); }
 
-header{
-    padding:30px;
-    text-align:center;
-}
+  .love {
+    transform: scale(1.6);
+    filter: drop-shadow(0 0 18px red);
+  }
 
-h1{
-    font-size:3rem;
-    background:linear-gradient(90deg,var(--accent),var(--accent2));
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
+  .bar {
+    width: 380px;
+    height: 30px;
+    background: #fff;
+    border-radius: 15px;
+    margin: 20px auto;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
 
-.subtitle{
-    opacity:.8;
-    margin-top:10px;
-}
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff9800, #ff1744);
+    transition: width 0.1s;
+  }
 
-.container{
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:20px;
-    padding:20px;
-}
+  .text {
+    font-size: 18px;
+    margin-top: 10px;
+  }
 
-.card{
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,0.08);
-    padding:25px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
-}
+  .loveText {
+    font-size: 28px;
+    color: red;
+    margin-top: 15px;
+    display: none;
+  }
 
-button{
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:white;
-    border:none;
-    padding:12px 18px;
-    border-radius:12px;
-    cursor:pointer;
-    margin-top:10px;
-    transition:.25s;
-}
+  /* 💛 Popup */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+    z-index: 10;
+    max-width: 300px;
+  }
 
-button:hover{
-    transform:translateY(-2px) scale(1.03);
-}
+  .popup.show {
+    transform: translate(-50%, -50%) scale(1);
+  }
 
-.idea{
-    margin-top:15px;
-    font-size:1.2rem;
-    min-height:50px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    margin-top:10px;
-}
-
-ul{
-    list-style:none;
-    margin-top:15px;
-}
-
-li{
-    background:rgba(255,255,255,0.08);
-    padding:10px;
-    border-radius:10px;
-    margin-top:8px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.points{
-    font-size:3rem;
-    text-align:center;
-    color:gold;
-    margin-top:15px;
-}
-
-.themeBtn{
-    position:fixed;
-    right:20px;
-    top:20px;
-}
-
-.footer{
-    text-align:center;
-    padding:30px;
-    opacity:.7;
-}
-
-canvas{
-    width:100%;
-    height:180px;
-    background:#000;
-    border-radius:15px;
-}
+  .popup button {
+    margin-top: 15px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    background: #ff9800;
+    color: white;
+    cursor: pointer;
+  }
 </style>
 </head>
+
 <body>
 
-<button class="themeBtn" onclick="toggleTheme()">🌙 / ☀️</button>
-
-<header>
-    <h1>Focus & Ideas Hub</h1>
-    <p class="subtitle">Ideen sammeln, Aufgaben erledigen und Punkte verdienen</p>
-</header>
-
 <div class="container">
+  <div id="dog" class="dog">🐕</div>
 
-    <div class="card">
-        <h2>💡 Ideen-Generator</h2>
-        <p>Klicke für eine zufällige Projektidee:</p>
-        <button onclick="generateIdea()">Idee erzeugen</button>
-        <div class="idea" id="ideaBox"></div>
-    </div>
+  <div class="bar">
+    <div id="fill" class="fill"></div>
+  </div>
 
-    <div class="card">
-        <h2>✅ Aufgabenliste</h2>
-        <input id="taskInput" placeholder="Neue Aufgabe...">
-        <button onclick="addTask()">Aufgabe hinzufügen</button>
-        <ul id="taskList"></ul>
-    </div>
-
-    <div class="card">
-        <h2>🏆 Punkte</h2>
-        <div class="points" id="points">0</div>
-        <p style="text-align:center">
-            Für jede erledigte Aufgabe erhältst du 10 Punkte.
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>🎨 Partikel-Spielzeug</h2>
-        <canvas id="canvas" width="500" height="180"></canvas>
-        <button onclick="spawnParticles()">Mehr Partikel</button>
-    </div>
-
+  <div class="text" id="status">Das dauert heute wirklich lange 🐾</div>
+  <div class="loveText" id="loveText">❤️ ER LIEBT DICH JETZT!</div>
 </div>
 
-<div class="footer">
-    Erstellt mit HTML, CSS und JavaScript
+<!-- 💛 Popup -->
+<div id="popup" class="popup">
+  🐶 Der Hund bleibt bei dir sitzen und schaut dich an...<br><br>
+  „Ich weiß nicht warum… aber ich vertraue dir irgendwie.“ 🥺💛<br><br>
+  <button onclick="closePopup()">Weiter streicheln</button>
 </div>
 
 <script>
-const ideas = [
-"Baue eine Wetter-App",
-"Erstelle ein eigenes Spiel",
-"Programmiere einen KI-Chatbot",
-"Entwickle eine Fitness-App",
-"Starte einen Technik-Blog",
-"Baue einen Passwort-Generator",
-"Erstelle ein Lernquiz",
-"Programmiere einen Musik-Player",
-"Entwickle einen Habit-Tracker",
-"Baue ein Smart-Home-Dashboard"
-];
+  let happiness = 0;
+  let petting = false;
+  let loved = false;
+  let popupShown = false;
 
-function generateIdea(){
-    const idea = ideas[Math.floor(Math.random()*ideas.length)];
-    document.getElementById("ideaBox").textContent = idea;
-}
+  const dog = document.getElementById("dog");
+  const fill = document.getElementById("fill");
+  const status = document.getElementById("status");
+  const loveText = document.getElementById("loveText");
+  const popup = document.getElementById("popup");
 
-let score = 0;
+  function update() {
+    fill.style.width = happiness + "%";
 
-function addTask(){
-    const input = document.getElementById("taskInput");
-    const text = input.value.trim();
-
-    if(!text) return;
-
-    const li = document.createElement("li");
-
-    const span = document.createElement("span");
-    span.textContent = text;
-
-    const btn = document.createElement("button");
-    btn.textContent = "Erledigt";
-
-    btn.onclick = ()=>{
-        li.remove();
-        score += 10;
-        document.getElementById("points").textContent = score;
-    };
-
-    li.appendChild(span);
-    li.appendChild(btn);
-
-    document.getElementById("taskList").appendChild(li);
-
-    input.value="";
-}
-
-function toggleTheme(){
-    document.body.classList.toggle("light");
-}
-
-/* Partikelanimation */
-
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-
-let particles=[];
-
-function spawnParticles(){
-    for(let i=0;i<25;i++){
-        particles.push({
-            x:Math.random()*canvas.width,
-            y:Math.random()*canvas.height,
-            vx:(Math.random()-0.5)*4,
-            vy:(Math.random()-0.5)*4,
-            size:Math.random()*4+2
-        });
+    // 💛 Popup bei 50%
+    if (happiness >= 50 && !popupShown) {
+      popupShown = true;
+      popup.classList.add("show");
     }
-}
 
-spawnParticles();
+    if (happiness >= 100) {
+      loved = true;
+      dog.classList.add("love");
+      status.innerText = "🐶 Unglaublich viel Geduld... BEST FRIENDS FOREVER!";
+      loveText.style.display = "block";
+    } 
+    else if (happiness > 70) {
+      dog.classList.add("happy");
+      status.innerText = "🐶 Er vertraut dir wirklich...";
+    } 
+    else if (happiness > 30) {
+      status.innerText = "🐾 Er überlegt noch...";
+    } 
+    else {
+      status.innerText = "Streichle ihn weiter... wirklich lange 😄";
+    }
+  }
 
-function animate(){
-    ctx.fillStyle="rgba(0,0,0,0.25)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+  function startPet() {
+    if (!loved) petting = true;
+  }
 
-    particles.forEach(p=>{
-        p.x+=p.vx;
-        p.y+=p.vy;
+  function stopPet() {
+    petting = false;
+  }
 
-        if(p.x<0||p.x>canvas.width)p.vx*=-1;
-        if(p.y<0||p.y>canvas.height)p.vy*=-1;
+  function closePopup() {
+    popup.classList.remove("show");
+  }
 
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-        ctx.fillStyle=`hsl(${p.x%360},100%,60%)`;
-        ctx.fill();
-    });
+  function loop() {
+    if (petting && !loved) {
+      happiness += 0.125; // sehr langsam = lange Spielzeit
+      if (happiness > 100) happiness = 100;
+      update();
+    }
+    requestAnimationFrame(loop);
+  }
 
-    requestAnimationFrame(animate);
-}
+  dog.addEventListener("mousedown", startPet);
+  document.addEventListener("mouseup", stopPet);
 
-animate();
+  dog.addEventListener("touchstart", startPet);
+  document.addEventListener("touchend", stopPet);
+
+  loop();
 </script>
 
 </body>
