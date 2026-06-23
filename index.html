@@ -1,640 +1,189 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alles Gute zum Geburtstag, Blub!</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🐶 Schnuffi Wuffii</title>
+
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { min-height:100vh; background:#fff0f5; font-family:'Nunito',sans-serif; overflow-x:hidden; }
-.page { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem; position:relative; overflow:hidden; }
-.confetti-piece { position:fixed; top:-20px; animation:fall linear infinite; border-radius:2px; pointer-events:none; }
-@keyframes fall {
-  0%{transform:translateY(-20px) rotate(0deg);opacity:1}
-  90%{opacity:1}
-  100%{transform:translateY(105vh) rotate(720deg);opacity:0}
-}
-.star { position:fixed; animation:twinkle ease-in-out infinite; pointer-events:none; font-size:20px; }
-@keyframes twinkle {
-  0%,100%{opacity:.3;transform:scale(1)}
-  50%{opacity:1;transform:scale(1.3)}
-}
-.card {
-  background:white;
-  border-radius:32px;
-  padding:2rem 2.5rem;
-  text-align:center;
-  max-width:640px;
-  width:100%;
-  box-shadow:0 8px 60px rgba(255,100,150,.18),0 2px 10px rgba(0,0,0,.06);
-  position:relative;
-  z-index:10;
-  animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both;
-}
-@keyframes popIn { from{opacity:0;transform:scale(.7)} to{opacity:1;transform:scale(1)} }
-.emoji-big { font-size:70px; display:block; margin-bottom:.3rem; animation:bounce 1.2s ease-in-out infinite; }
-@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-.title-sub { font-size:.95rem; font-weight:700; color:#f06292; text-transform:uppercase; letter-spacing:4px; margin-bottom:.2rem; }
-.title-name { font-family:'Pacifico',cursive; font-size:clamp(2.5rem,9vw,4.5rem); background:linear-gradient(135deg,#e91e8c,#ff6b9d,#ffb347); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.1; }
-.title-main { font-family:'Pacifico',cursive; font-size:clamp(1.2rem,3.5vw,2rem); color:#7c4dff; margin-bottom:1rem; }
-.divider { display:flex; align-items:center; gap:12px; justify-content:center; margin:.8rem 0; }
-.divider-line { flex:1; height:2px; background:linear-gradient(90deg,transparent,#ffb3cc,transparent); max-width:80px; border-radius:2px; }
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #fff3c4, #ffcc80);
+    font-family: Arial, sans-serif;
+    user-select: none;
+    overflow: hidden;
+  }
 
-/* GAME */
-.game-section { margin-top:1rem; background:linear-gradient(135deg,#fff0f5,#f0e8ff); border-radius:20px; padding:1.2rem 1rem; border:2px dashed #f9a8d4; }
-.game-title { font-size:1rem; font-weight:900; color:#c026d3; margin-bottom:.3rem; }
-.game-subtitle { font-size:.82rem; color:#888; margin-bottom:.6rem; }
-.level-badge { display:inline-block; font-size:.8rem; font-weight:900; padding:.2rem .9rem; border-radius:50px; margin-bottom:.5rem; }
-.level-1 { background:#dcfce7; color:#166534; }
-.level-2 { background:#fef9c3; color:#854d0e; }
-.level-3 { background:#fee2e2; color:#991b1b; }
-.progress-bar-wrap { background:#f3e8ff; border-radius:20px; height:18px; width:100%; overflow:hidden; margin-bottom:.4rem; border:1.5px solid #e9d5ff; }
-.progress-bar-fill { height:100%; background:linear-gradient(90deg,#f472b6,#a78bfa); border-radius:20px; transition:width .2s ease; width:0%; }
+  .container {
+    text-align: center;
+  }
 
-/* Countdown-Timer Balken */
-.time-bar-wrap { background:#fce7f3; border-radius:20px; height:10px; width:100%; overflow:hidden; margin-bottom:.4rem; border:1.5px solid #fbcfe8; }
-.time-bar-fill { height:100%; background:linear-gradient(90deg,#34d399,#facc15,#ef4444); border-radius:20px; transition:width .1s linear; width:100%; }
+  .dog {
+    font-size: 140px;
+    transition: transform 0.3s;
+  }
 
-.score-text { font-size:.85rem; font-weight:700; color:#a855f7; margin-bottom:.3rem; }
-.result-msg { font-size:1rem; font-weight:900; padding:.4rem .8rem; border-radius:12px; margin-bottom:.5rem; display:none; }
-.result-msg.show { display:block; animation:popIn .4s both; }
-.cake-area { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:.7rem; min-height:70px; align-items:center; }
-.cake-btn {
-  font-size:2rem;
-  background:none;
-  border:none;
-  cursor:pointer;
-  padding:4px;
-  border-radius:8px;
-  user-select:none;
-  -webkit-user-select:none;
-  position:relative;
-  transition:transform .08s;
-}
-.cake-btn:active { transform:scale(.8); }
-.cake-btn.vanish { animation:vanishAnim .25s ease forwards; pointer-events:none; }
-@keyframes vanishAnim { 0%{transform:scale(1.3);opacity:1} 100%{transform:scale(0);opacity:0} }
+  .happy { transform: scale(1.1); }
 
-/* Bewegliche Items */
-.cake-btn.moving { animation: wiggle linear infinite; }
-@keyframes wiggle { 0%{transform:rotate(-8deg)} 50%{transform:rotate(8deg)} 100%{transform:rotate(-8deg)} }
+  .love {
+    transform: scale(1.6);
+    filter: drop-shadow(0 0 18px red);
+  }
 
-.pop-label { position:fixed; font-size:1.3rem; font-weight:900; pointer-events:none; animation:popUp .8s ease forwards; z-index:999; text-shadow:0 2px 8px rgba(0,0,0,.15); }
-@keyframes popUp { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-60px) scale(1.5)} }
+  .bar {
+    width: 380px;
+    height: 30px;
+    background: #fff;
+    border-radius: 15px;
+    margin: 20px auto;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
 
-.action-btn { display:inline-block; background:linear-gradient(135deg,#f472b6,#a78bfa); color:white; font-size:.95rem; font-weight:900; padding:.5rem 1.5rem; border-radius:50px; border:none; cursor:pointer; letter-spacing:.5px; transition:transform .15s,box-shadow .15s; box-shadow:0 4px 15px rgba(167,139,250,.4); }
-.action-btn:hover { transform:scale(1.05); }
-.action-btn:active { transform:scale(.97); }
-.lives { font-size:1.2rem; margin-bottom:.3rem; }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff9800, #ff1744);
+    transition: width 0.1s;
+  }
 
-/* Ballons */
-.balloons { position:fixed; bottom:-20px; display:flex; gap:30px; left:50%; transform:translateX(-50%); pointer-events:none; }
-.balloon { display:flex; flex-direction:column; align-items:center; animation:floatB ease-in-out infinite; }
-.balloon-body { width:55px; height:65px; border-radius:50% 50% 50% 50%/60% 60% 40% 40%; position:relative; }
-.balloon-string { width:1px; height:110px; background:#bbb; }
-@keyframes floatB { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-15px) rotate(3deg)} }
+  .text {
+    font-size: 18px;
+    margin-top: 10px;
+  }
 
-/* Level-Overlay */
-.level-overlay {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-  color:#fff;
-  font-family:'Nunito',sans-serif;
-  text-align:center;
-  padding:1rem;
-}
-.level-overlay-inner {
-  background:rgba(255,255,255,0.07);
-  border-radius:24px;
-  padding:1.5rem 2rem;
-  max-width:420px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.4);
-}
-.level-overlay-title {
-  font-family:'Pacifico',cursive;
-  font-size:2.1rem;
-  margin-bottom:.6rem;
-}
-.level-overlay-text {
-  font-size:1rem;
-  margin-bottom:1rem;
-}
-.level-overlay-btn {
-  margin-top:.5rem;
-  padding:.45rem 1.4rem;
-  border-radius:999px;
-  border:none;
-  background:linear-gradient(135deg,#f472b6,#a78bfa);
-  color:white;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 4px 18px rgba(0,0,0,0.45);
-}
+  .loveText {
+    font-size: 28px;
+    color: red;
+    margin-top: 15px;
+    display: none;
+  }
+
+  /* 💛 Popup */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+    z-index: 10;
+    max-width: 300px;
+  }
+
+  .popup.show {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .popup button {
+    margin-top: 15px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    background: #ff9800;
+    color: white;
+    cursor: pointer;
+  }
 </style>
 </head>
+
 <body>
-<div class="page">
-  <div class="card">
-    <span class="emoji-big">🎂</span>
-    <p class="title-sub">✨ Herzlichen Glückwunsch ✨</p>
-    <div class="title-name">Blub!</div>
-    <p class="title-main">Alles Gute zum Geburtstag 🎉</p>
-    <div class="divider">
-      <div class="divider-line"></div>
-      <span style="font-size:1.3rem">🌸</span>
-      <div class="divider-line"></div>
-    </div>
 
-    <div class="game-section">
-      <div class="game-title">🎮 Geburtstagskuchen-Jagd!</div>
-      <div class="game-subtitle" id="game-sub">
-        Sammle die Kuchen in jedem Level – Bomben klauen Leben! 3 Leben, 10 Level 😈
-      </div>
-      <div id="level-badge" class="level-badge level-1" style="display:none"></div>
+<div class="container">
+  <div id="dog" class="dog">🐕</div>
 
-      <div class="time-bar-wrap"><div class="time-bar-fill" id="time-bar"></div></div>
-      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog"></div></div>
-
-      <div class="lives" id="lives-display"></div>
-      <div class="score-text" id="score-txt">Punkte: 0</div>
-      <div class="score-text" id="combo-txt"></div>
-
-      <div class="result-msg" id="result-msg"></div>
-      <div class="cake-area" id="cake-area"></div>
-      <button class="action-btn" id="main-btn" onclick="startGame()">🎂 Spiel starten!</button>
-    </div>
+  <div class="bar">
+    <div id="fill" class="fill"></div>
   </div>
+
+  <div class="text" id="status">Das dauert heute wirklich lange 🐾</div>
+  <div class="loveText" id="loveText">De Schnuffi Wuffiiii ❤️ LIEBT DICH JETZT!</div>
 </div>
 
-<!-- Level-Overlay -->
-<div id="level-overlay" class="level-overlay" style="display:none;">
-  <div class="level-overlay-inner">
-    <div class="level-overlay-title" id="overlay-title"></div>
-    <div class="level-overlay-text" id="overlay-text"></div>
-    <button class="level-overlay-btn" onclick="closeOverlayAndStart()">Los geht's!</button>
-  </div>
+<!-- 💛 Popup -->
+<div id="popup" class="popup">
+  🐶 De Schnuffi Wuffi bliebt bi dir hocke und luegt dich ah...<br><br>
+  „Ich weiß nid warum… aber ich vertraue dir irgendwie.“ 🥺💛<br><br>
+  <button onclick="closePopup()">Wiiter striichle</button>
 </div>
 
 <script>
-/* === Grunddaten === */
-const cakeEmojis = ['🎂','🧁','🍰'];
-const bombEmojis = ['💣','👻','🤡','🦠','☠️'];
+  let happiness = 0;
+  let petting = false;
+  let loved = false;
+  let popupShown = false;
 
-/*
-  10 Level:
-  - goal steigt langsam
-  - timeLimit sinkt leicht
-  - bombChance steigt
-  - powerChance leicht hoch
-*/
-const LEVELS = [
-  { name:'Level 1 – Warm werden 🟢', badge:'level-1', goal:6,  timeLimit:14, bombChance:.15, count:6, moving:false, disappear:false, powerChance:0.10 },
-  { name:'Level 2 – Mehr Kuchen 🟢', badge:'level-1', goal:7,  timeLimit:14, bombChance:.18, count:7, moving:false, disappear:false, powerChance:0.10 },
-  { name:'Level 3 – Leichtes Wackeln 🟡', badge:'level-2', goal:8,  timeLimit:13, bombChance:.22, count:7, moving:true,  disappear:false, powerChance:0.11 },
-  { name:'Level 4 – Noch mehr Action 🟡',  badge:'level-2', goal:9,  timeLimit:13, bombChance:.25, count:8, moving:true,  disappear:false, powerChance:0.12 },
-  { name:'Level 5 – Achtung Bomben! 🟡',   badge:'level-2', goal:10, timeLimit:12, bombChance:.28, count:8, moving:true,  disappear:false, powerChance:0.13 },
-  { name:'Level 6 – Dinge verschwinden 🔴', badge:'level-3', goal:11, timeLimit:12, bombChance:.30, count:8, moving:true,  disappear:true,  powerChance:0.14 },
-  { name:'Level 7 – Schnell & trickreich 🔴', badge:'level-3', goal:12, timeLimit:11, bombChance:.33, count:9, moving:true, disappear:true,  powerChance:0.15 },
-  { name:'Level 8 – Fast im Ziel 🔴',      badge:'level-3', goal:13, timeLimit:11, bombChance:.36, count:9, moving:true,  disappear:true,  powerChance:0.16 },
-  { name:'Level 9 – Hardcore-Kuchen 🔥',   badge:'level-3', goal:14, timeLimit:10, bombChance:.39, count:9, moving:true,  disappear:true,  powerChance:0.17 },
-  { name:'Level 10 – Finale! 👑',          badge:'level-3', goal:15, timeLimit:10, bombChance:.42, count:10,moving:true,  disappear:true,  powerChance:0.18 },
-];
+  const dog = document.getElementById("dog");
+  const fill = document.getElementById("fill");
+  const status = document.getElementById("status");
+  const loveText = document.getElementById("loveText");
+  const popup = document.getElementById("popup");
 
-/* === Spielzustand === */
-let score = 0;         // Level-Punkte
-let totalScore = 0;    // Gesamt über alle Level
-let lives = 3;
-let level = 0;
-let running = false;
-let timeLeft = 0;
-let tickTimer = null;
-let disappearTimer = null;
+  function update() {
+    fill.style.width = happiness + "%";
 
-/* Combo & Power-ups */
-let combo = 0;
-let bestCombo = 0;
-let shieldActive = false;
-
-/* Overlay-Steuerung */
-let overlayMode = null; // 'startLevel' oder 'afterLevel'
-
-/* === Spielsteuerung === */
-function startGame() {
-  score = 0;
-  totalScore = 0;
-  lives = 3;
-  level = 0;
-  running = true;
-  combo = 0;
-  bestCombo = 0;
-  shieldActive = false;
-
-  document.getElementById('main-btn').style.display='none';
-  const msg = document.getElementById('result-msg');
-  msg.classList.remove('show');
-  msg.textContent = '';
-
-  document.getElementById('level-badge').style.display='inline-block';
-
-  showLevelOverlayStart();
-}
-
-function showLevelOverlayStart() {
-  const lv = LEVELS[level];
-  overlayMode = 'startLevel';
-
-  const overlay = document.getElementById('level-overlay');
-  document.getElementById('overlay-title').textContent = lv.name;
-  document.getElementById('overlay-text').textContent =
-    'Sammle ' + lv.goal + ' Kuchen, um dieses Level zu schaffen. ' +
-    'Du hast ' + lv.timeLimit + ' Sekunden – meide Bomben!';
-
-  overlay.style.display = 'flex';
-}
-
-function showLevelOverlayAfter() {
-  const lv = LEVELS[level-1]; // Level, das gerade beendet wurde
-  overlayMode = 'afterLevel';
-
-  const overlay = document.getElementById('level-overlay');
-  document.getElementById('overlay-title').textContent = 'Level ' + level + ' geschafft! 🎉';
-  document.getElementById('overlay-text').textContent =
-    'Super gemacht! Insgesamt: ' + totalScore + ' Kuchen gesammelt. ' +
-    (level < LEVELS.length ? 'Bereit für das nächste Level?' : '');
-
-  overlay.style.display = 'flex';
-}
-
-function closeOverlayAndStart() {
-  const overlay = document.getElementById('level-overlay');
-  overlay.style.display = 'none';
-
-  if (overlayMode === 'startLevel') {
-    startLevel();
-  } else if (overlayMode === 'afterLevel') {
-    // nur weiter, wenn es noch ein Level gibt
-    if (level < LEVELS.length) {
-      startLevel();
-    }
-  }
-}
-
-function startLevel() {
-  const lv = LEVELS[level];
-  clearTimers();
-  running = true;
-  score = 0;
-  combo = 0;
-  shieldActive = false;
-
-  timeLeft = lv.timeLimit;
-  const badge = document.getElementById('level-badge');
-  badge.className = 'level-badge ' + lv.badge;
-  badge.textContent = lv.name;
-
-  document.getElementById('game-sub').textContent = lv.moving && lv.disappear
-    ? '😈 Items verschwinden UND wackeln – viel Glück!'
-    : lv.moving ? '🏃 Items bewegen sich – pass auf!'
-    : '🎂 Klick die Kuchen, meide die Bomben!';
-
-  updateUI();
-  spawnItems();
-  tickTimer = setInterval(tick, 1000);
-  if(lv.disappear) disappearTimer = setInterval(autoDisappear, 1800);
-}
-
-function tick() {
-  if(!running) return;
-  timeLeft--;
-  updateTimeBar();
-  if(timeLeft <= 0) {
-    loseLife('⏰ Zeit abgelaufen!');
-  }
-}
-
-function autoDisappear() {
-  if(!running) return;
-  const area = document.getElementById('cake-area');
-  const btns = [...area.querySelectorAll('.cake-btn:not(.vanish)')];
-  if(btns.length === 0) return;
-  const btn = btns[Math.floor(Math.random()*btns.length)];
-  btn.classList.add('vanish');
-  setTimeout(()=>{ if(btn.parentNode) btn.remove(); }, 250);
-}
-
-/* === Items erzeugen === */
-function spawnItems() {
-  if(!running) return;
-  const lv = LEVELS[level];
-  const area = document.getElementById('cake-area');
-  area.innerHTML = '';
-  const total = lv.count;
-  const items = [];
-
-  for(let i=0;i<total;i++){
-    const roll = Math.random();
-    let type, emoji;
-
-    if (roll < lv.powerChance) {
-      // Power-Up
-      type = 'powerup';
-      const pRoll = Math.random();
-      if (pRoll < 0.34) {
-        emoji = '⏱️';  // Zeitbonus
-      } else if (pRoll < 0.67) {
-        emoji = '🛡️';  // Schild
-      } else {
-        emoji = '⭐';   // Bonuspunkte
-      }
-    } else {
-      const isBomb = Math.random() < lv.bombChance;
-      type = isBomb ? 'bomb' : 'cake';
-      emoji = isBomb
-        ? bombEmojis[Math.floor(Math.random()*bombEmojis.length)]
-        : cakeEmojis[Math.floor(Math.random()*cakeEmojis.length)];
+    // 💛 Popup bei 50%
+    if (happiness >= 50 && !popupShown) {
+      popupShown = true;
+      popup.classList.add("show");
     }
 
-    items.push({ type, emoji });
-  }
-
-  shuffle(items);
-  items.forEach(item=>{
-    const btn = document.createElement('button');
-    btn.className = 'cake-btn';
-    btn.textContent = item.emoji;
-    if(lv.moving){
-      btn.classList.add('moving');
-      btn.style.animationDuration = (.4+Math.random()*.6)+'s';
+    if (happiness >= 100) {
+      loved = true;
+      dog.classList.add("love");
+      status.innerText = "🐶 Unglaublich viel Geduld... BEST FRIENDS FOREVER!";
+      loveText.style.display = "block";
+    } 
+    else if (happiness > 70) {
+      dog.classList.add("happy");
+      status.innerText = "🐶 Er vertraut dir wirklich...";
+    } 
+    else if (happiness > 30) {
+      status.innerText = "🐾 Er überlegt noch...";
+    } 
+    else {
+      status.innerText = "Streichle ihn weiter... wirklich lange 😄";
     }
-    btn.onclick = (e)=>handleClick(e, item.type, btn, item.emoji);
-    area.appendChild(btn);
-  });
-}
+  }
 
-/* === Klick-Logik === */
-function handleClick(e, type, btn, emoji) {
-  if(!running || btn.classList.contains('vanish')) return;
-  btn.classList.add('vanish');
+  function startPet() {
+    if (!loved) petting = true;
+  }
 
-  if(type === 'cake') {
-    combo++;
-    if (combo > bestCombo) bestCombo = combo;
+  function stopPet() {
+    petting = false;
+  }
 
-    let gained = 1;
-    if (combo >= 5) {
-      gained = 2;
-      showPopLabel(e.clientX, e.clientY, 'comboBig', combo);
-    } else if (combo >= 3) {
-      showPopLabel(e.clientX, e.clientY, 'comboSmall', combo);
-    } else {
-      showPopLabel(e.clientX, e.clientY, 'cake');
+  function closePopup() {
+    popup.classList.remove("show");
+  }
+
+  function loop() {
+    if (petting && !loved) {
+      happiness += 0.125; // sehr langsam = lange Spielzeit
+      if (happiness > 100) happiness = 100;
+      update();
     }
-
-    score += gained;
-    totalScore += gained;
-    updateUI();
-
-    const lv = LEVELS[level];
-    if(score >= lv.goal) { levelUp(); return; }
-    setTimeout(spawnItems, 250);
-
-  } else if (type === 'bomb') {
-    if (shieldActive) {
-      shieldActive = false;
-      showPopLabel(e.clientX, e.clientY, 'shield');
-      updateUI();
-      setTimeout(spawnItems, 250);
-      return;
-    }
-    showPopLabel(e.clientX, e.clientY, 'bomb');
-    loseLife('💣 Bombe erwischt!');
-
-  } else if (type === 'powerup') {
-    if (emoji === '⏱️') {
-      const lv = LEVELS[level];
-      timeLeft = Math.min(timeLeft + 3, lv.timeLimit + 5);
-      showPopLabel(e.clientX, e.clientY, 'time');
-      updateTimeBar();
-    } else if (emoji === '🛡️') {
-      shieldActive = true;
-      showPopLabel(e.clientX, e.clientY, 'shield');
-    } else if (emoji === '⭐') {
-      score += 2;
-      totalScore += 2;
-      showPopLabel(e.clientX, e.clientY, 'comboBig', '⭐');
-      updateUI();
-    }
-    setTimeout(spawnItems, 250);
-  }
-}
-
-/* === Leben, Level, Ende === */
-function loseLife(reason) {
-  lives--;
-  combo = 0;
-  shakeCard();
-  updateUI();
-
-  if(lives <= 0) {
-    endGame(false, reason);
-    return;
+    requestAnimationFrame(loop);
   }
 
-  clearTimers();
-  const lv = LEVELS[level];
+  dog.addEventListener("mousedown", startPet);
+  document.addEventListener("mouseup", stopPet);
 
-  lv._originalBombChance = lv._originalBombChance ?? lv.bombChance;
-  lv.bombChance = Math.max(0.10, lv._originalBombChance - 0.05);
+  dog.addEventListener("touchstart", startPet);
+  document.addEventListener("touchend", stopPet);
 
-  timeLeft = lv.timeLimit;
-  updateTimeBar();
-  spawnItems();
-  tickTimer = setInterval(tick, 1000);
-  if(lv.disappear) disappearTimer = setInterval(autoDisappear, 1800);
-}
-
-function levelUp() {
-  clearTimers();
-  running = false;
-  const lv = LEVELS[level];
-  if (lv._originalBombChance !== undefined) {
-    lv.bombChance = lv._originalBombChance;
-  }
-  level++;
-
-  if(level >= LEVELS.length) {
-    endGame(true, '');
-    return;
-  }
-
-  showLevelOverlayAfter();
-}
-
-function endGame(won, reason) {
-  running=false;
-  clearTimers();
-  document.getElementById('cake-area').innerHTML='';
-
-  const msg = document.getElementById('result-msg');
-  if(won) {
-    msg.textContent = '🏆 Alle 10 Level geschafft! Blub ist die Geburtstagskuchen-Königin! 👑🎉 Gesamt: ' + totalScore + ' Kuchen!';
-    msg.style.cssText = 'background:#fdf4ff;color:#7c3aed;border:2px solid #d8b4fe;';
-    for(let i=0;i<80;i++) makeConfetti();
-  } else {
-    msg.textContent = '😅 ' + reason + ' Keine Leben mehr! Du hattest insgesamt ' + totalScore + ' Kuchen. Versuch\'s nochmal!';
-    msg.style.cssText = 'background:#fff0f5;color:#e91e8c;border:2px solid #fda4af;';
-  }
-  msg.classList.add('show');
-
-  const btn = document.getElementById('main-btn');
-  btn.style.display='inline-block';
-  btn.textContent='🔄 Nochmal spielen!';
-  document.getElementById('level-badge').style.display='none';
-}
-
-/* === UI-Updates === */
-function updateUI() {
-  const lv = LEVELS[level] || LEVELS[LEVELS.length-1];
-
-  document.getElementById('score-txt').textContent =
-    'Level: ' + (level+1) + '  |  Level-Punkte: ' + score + ' / ' + lv.goal + '  |  Gesamt: ' + totalScore;
-
-  let livesHtml = '';
-  for(let i=0;i<3;i++) livesHtml += i < lives ? '❤️ ' : '🖤 ';
-  document.getElementById('lives-display').innerHTML = livesHtml;
-
-  const comboTxt = document.getElementById('combo-txt');
-  if (combo > 1) {
-    comboTxt.textContent = 'Combo: x' + combo + ' (Best: x' + bestCombo + ')';
-  } else {
-    comboTxt.textContent = '';
-  }
-
-  // Fortschrittsbalken: über alle Levelziele
-  const totalGoal = LEVELS.reduce((s,l)=>s+l.goal,0);
-  const prog = Math.min(100,(totalScore/totalGoal)*100);
-  document.getElementById('prog').style.width = prog + '%';
-
-  updateTimeBar();
-}
-
-function updateTimeBar() {
-  const lv = LEVELS[level] || LEVELS[LEVELS.length-1];
-  const pct = Math.max(0,(timeLeft/lv.timeLimit)*100);
-  document.getElementById('time-bar').style.width = pct+'%';
-}
-
-function clearTimers() {
-  clearInterval(tickTimer);
-  clearInterval(disappearTimer);
-  tickTimer=null;
-  disappearTimer=null;
-}
-
-/* === Effekte === */
-function shakeCard() {
-  const c = document.querySelector('.card');
-  c.style.transform='rotate(-4deg) scale(.98)';
-  setTimeout(()=>c.style.transform='rotate(4deg)',80);
-  setTimeout(()=>c.style.transform='rotate(-2deg)',160);
-  setTimeout(()=>c.style.transform='',240);
-}
-
-function showPopLabel(x, y, type, extra) {
-  const goodL = ['+1 🎉','Super! ✨','Ja! 💖','Nice! 🌟','Top! 🎊'];
-  const badL  = ['-1 ❤️💣','Autsch! 😱','Boom! 💣','Aua! 😬'];
-  const lbl = document.createElement('div');
-  lbl.className='pop-label';
-  lbl.style.left=x+'px';
-  lbl.style.top=(y-20)+'px';
-
-  if (type === 'cake') {
-    lbl.textContent = goodL[Math.floor(Math.random()*goodL.length)];
-    lbl.style.color = '#e91e8c';
-  } else if (type === 'bomb') {
-    lbl.textContent = badL[Math.floor(Math.random()*badL.length)];
-    lbl.style.color = '#ef4444';
-  } else if (type === 'comboSmall') {
-    lbl.textContent = 'Combo x' + extra + ' ✨';
-    lbl.style.color = '#22c55e';
-  } else if (type === 'comboBig') {
-    lbl.textContent = typeof extra === 'number'
-      ? 'Mega-Combo x' + extra + ' 💥'
-      : '+2 Bonus ⭐';
-    lbl.style.color = '#f97316';
-  } else if (type === 'time') {
-    lbl.textContent = '+3s ⏱️';
-    lbl.style.color = '#0ea5e9';
-  } else if (type === 'shield') {
-    lbl.textContent = 'Schild aktiv 🛡️';
-    lbl.style.color = '#6366f1';
-  }
-
-  document.body.appendChild(lbl);
-  setTimeout(()=>lbl.remove(),900);
-}
-
-/* === Helfer === */
-function shuffle(a){
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-}
-
-/* === Konfetti & Sterne & Ballons === */
-const colors=['#ff6b9d','#ffb347','#a78bfa','#34d399','#60a5fa','#f472b6','#fbbf24'];
-function makeConfetti(){
-  const p=document.createElement('div');
-  p.className='confetti-piece';
-  p.style.left=Math.random()*100+'vw';
-  p.style.background=colors[Math.floor(Math.random()*colors.length)];
-  p.style.animationDuration=(Math.random()*4+3)+'s';
-  p.style.animationDelay=(Math.random()*2)+'s';
-  p.style.width=(Math.random()*10+6)+'px';
-  p.style.height=(Math.random()*10+6)+'px';
-  p.style.borderRadius=Math.random()>.5?'50%':'2px';
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),8000);
-}
-for(let i=0;i<50;i++) makeConfetti();
-setInterval(makeConfetti,600);
-
-const stars=['⭐','✨','💫','🌟'];
-for(let i=0;i<8;i++){
-  const s=document.createElement('div');
-  s.className='star';
-  s.textContent=stars[Math.floor(Math.random()*stars.length)];
-  s.style.left=(Math.random()*90+5)+'vw';
-  s.style.top=(Math.random()*90+5)+'vh';
-  s.style.animationDuration=(Math.random()*2+1.5)+'s';
-  s.style.animationDelay=(Math.random()*2)+'s';
-  document.body.appendChild(s);
-}
-
-/* Ballons */
-const bColors=['#ff6b9d','#a78bfa','#ffb347','#34d399','#60a5fa'];
-const bc=document.createElement('div');
-bc.className='balloons';
-for(let i=0;i<5;i++){
-  const b=document.createElement('div');
-  b.className='balloon';
-  b.style.animationDuration=(Math.random()*1.5+2)+'s';
-  b.style.animationDelay=Math.random()+'s';
-  b.innerHTML =
-    '<div class="balloon-body" style="background:'+bColors[i]+'">' +
-      '<div style="position:absolute;top:16px;left:12px;width:10px;height:16px;background:rgba(255,255,255,.35);border-radius:50%;transform:rotate(-30deg)"></div>' +
-    '</div>' +
-    '<div class="balloon-string"></div>';
-  bc.appendChild(b);
-}
-document.body.appendChild(bc);
+  loop();
 </script>
+
 </body>
 </html>
