@@ -1,188 +1,254 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🐶 Schnuffi Wuffii</title>
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle, #fff3c4, #ffcc80);
-    font-family: Arial, sans-serif;
-    user-select: none;
-    overflow: hidden;
-  }
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:radial-gradient(circle,#fff6d5,#ffd180);
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+    user-select:none;
+}
 
-  .container {
-    text-align: center;
-  }
+.container{
+    text-align:center;
+    max-width:500px;
+    padding:20px;
+}
 
-  .dog {
-    font-size: 140px;
-    transition: transform 0.3s;
-  }
+.dog{
+    font-size:150px;
+}
 
-  .happy { transform: scale(1.1); }
+#heartContainer{
+    width:100px;
+    height:90px;
+    margin:20px auto;
+}
 
-  .love {
-    transform: scale(1.6);
-    filter: drop-shadow(0 0 18px red);
-  }
+#gift{
+    font-size:50px;
+    height:60px;
+}
 
-  .bar {
-    width: 380px;
-    height: 30px;
-    background: #fff;
-    border-radius: 15px;
-    margin: 20px auto;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  }
+.text{
+    font-size:22px;
+    color:#555;
+    min-height:60px;
+    margin-top:15px;
+}
 
-  .fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #ff9800, #ff1744);
-    transition: width 0.1s;
-  }
+.loveText{
+    display:none;
+    font-size:30px;
+    color:#ff4081;
+    margin-top:20px;
+    font-weight:bold;
+}
 
-  .text {
-    font-size: 18px;
-    margin-top: 10px;
-  }
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    text-align:center;
+    max-width:320px;
+    transition:0.3s;
+    z-index:100;
+}
 
-  .loveText {
-    font-size: 28px;
-    color: red;
-    margin-top: 15px;
-    display: none;
-  }
+.popup.show{
+    transform:translate(-50%,-50%) scale(1);
+}
 
-  /* 💛 Popup */
-  .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    background: white;
-    padding: 25px 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    text-align: center;
-    font-size: 18px;
-    transition: transform 0.3s ease;
-    z-index: 10;
-    max-width: 300px;
-  }
-
-  .popup.show {
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  .popup button {
-    margin-top: 15px;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 10px;
-    background: #ff9800;
-    color: white;
-    cursor: pointer;
-  }
+.popup button{
+    margin-top:15px;
+    padding:10px 18px;
+    border:none;
+    border-radius:12px;
+    background:#ff9800;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-  <div id="dog" class="dog">🐕</div>
 
-  <div class="bar">
-    <div id="fill" class="fill"></div>
-  </div>
+    <div class="dog">🐶</div>
 
-  <div class="text" id="status">Das dauert heute wirklich lange 🐾</div>
-  <div class="loveText" id="loveText">De Schnuffi Wuffiiii ❤️ LIEBT DICH JETZT!</div>
+    <!-- ❤️ SVG HEART (FIX) -->
+    <div id="heartContainer">
+
+        <svg viewBox="0 0 100 90" width="100" height="90">
+
+            <!-- Background -->
+            <path d="M50 82 L15 45 A18 18 0 1 1 50 25 A18 18 0 1 1 85 45 Z"
+                  fill="#ddd"/>
+
+            <!-- Fill -->
+            <clipPath id="heartClip">
+                <rect id="clipRect" x="0" y="0" width="0" height="90"></rect>
+            </clipPath>
+
+            <path d="M50 82 L15 45 A18 18 0 1 1 50 25 A18 18 0 1 1 85 45 Z"
+                  fill="#ff4081"
+                  clip-path="url(#heartClip)"/>
+
+        </svg>
+
+    </div>
+
+    <div id="gift"></div>
+
+    <div id="status" class="text">🐶 Wer bisch du?</div>
+
+    <div id="loveText" class="loveText">💖 Schnuffi liebt dich!</div>
+
 </div>
 
-<!-- 💛 Popup -->
-<div id="popup" class="popup">
-  🐶 De Schnuffi Wuffi bliebt bi dir hocke und luegt dich ah...<br><br>
-  „Ich weiß nid warum… aber ich vertraue dir irgendwie.“ 🥺💛<br><br>
-  <button onclick="closePopup()">Wiiter striichle</button>
-</div>
+<div id="popup" class="popup"></div>
 
 <script>
-  let happiness = 0;
-  let petting = false;
-  let loved = false;
-  let popupShown = false;
 
-  const dog = document.getElementById("dog");
-  const fill = document.getElementById("fill");
-  const status = document.getElementById("status");
-  const loveText = document.getElementById("loveText");
-  const popup = document.getElementById("popup");
+const playerName = prompt("🐶 Wie heissisch?") || "Fründ";
 
-  function update() {
-    fill.style.width = happiness + "%";
+let happiness = 0;
+let petting = false;
+let loved = false;
+let popupShown = false;
+let finalPopupShown = false;
+let cuddleTimer = 0;
 
-    // 💛 Popup bei 50%
-    if (happiness >= 50 && !popupShown) {
-      popupShown = true;
-      popup.classList.add("show");
-    }
+const gift = document.getElementById("gift");
+const status = document.getElementById("status");
+const loveText = document.getElementById("loveText");
+const popup = document.getElementById("popup");
 
-    if (happiness >= 100) {
-      loved = true;
-      dog.classList.add("love");
-      status.innerText = "🐶 Unglaublich viel Geduld... BEST FRIENDS FOREVER!";
-      loveText.style.display = "block";
-    } 
-    else if (happiness > 70) {
-      dog.classList.add("happy");
-      status.innerText = "🐶 Er vertraut dir wirklich...";
-    } 
-    else if (happiness > 30) {
-      status.innerText = "🐾 Er überlegt noch...";
-    } 
-    else {
-      status.innerText = "Streichle ihn weiter... wirklich lange 😄";
-    }
-  }
+const clipRect = document.getElementById("clipRect");
 
-  function startPet() {
-    if (!loved) petting = true;
-  }
-
-  function stopPet() {
-    petting = false;
-  }
-
-  function closePopup() {
+function closePopup(){
     popup.classList.remove("show");
-  }
+}
 
-  function loop() {
-    if (petting && !loved) {
-      happiness += 0.125; // sehr langsam = lange Spielzeit
-      if (happiness > 100) happiness = 100;
-      update();
+function update(){
+
+    // ❤️ HEART FILL
+    clipRect.setAttribute("width", happiness);
+
+    if(happiness < 25){
+
+        gift.innerHTML = "";
+        status.innerText = "🐶 Wer bisch du?";
+
+    } else if(happiness < 50){
+
+        gift.innerHTML = "🦴";
+        status.innerText = "🐶 Du chasch mi striichle... aber nur es bitzli.";
+
+        if(!popupShown){
+            popupShown = true;
+            popup.innerHTML = "🐶💛<br><br>Ich glaube du meinsch es guet...<br><br>Da, en Chnoche für dich. 🦴<br><br><button onclick='closePopup()'>Aww</button>";
+            popup.classList.add("show");
+        }
+
+    } else if(happiness < 75){
+
+        status.innerText = "🐾 Ich glaub du bisch lieb.";
+
+    } else if(happiness < 100){
+
+        status.innerText = "🥺 Chasch no es bitzli bliibe?";
+
     }
+
+    if(happiness >= 100){
+
+        loved = true;
+
+        status.innerText = `❤️ ${playerName}, du bisch jetzt mini Familie.`;
+        loveText.style.display = "block";
+
+        if(!finalPopupShown){
+
+            finalPopupShown = true;
+
+            setTimeout(()=>{
+                popup.innerHTML = `
+                🐶💛<br><br>
+                "${playerName}... danke dass du bi mir blibe bisch." 🥺❤️<br><br>
+                <button onclick="closePopup()">❤️</button>
+                `;
+                popup.classList.add("show");
+            },1000);
+        }
+    }
+}
+
+function startPet(){ petting = true; }
+function stopPet(){ petting = false; }
+
+function loop(){
+
+    if(petting && !loved){
+
+        happiness += 0.12;
+        if(happiness > 100) happiness = 100;
+
+        update();
+    }
+
+    if(petting && loved){
+
+        cuddleTimer++;
+
+        if(cuddleTimer > 600 && !window.secretEnding){
+
+            window.secretEnding = true;
+
+            popup.innerHTML = `
+            🐶🫂<br><br>
+            Darf ich ehrlich sii?<br><br>
+            Ich ha di scho bi 30% gärn gha. 🥹❤️<br><br>
+            <button onclick="closePopup()">AWWWW</button>
+            `;
+
+            popup.classList.add("show");
+
+            document.body.style.background =
+            "linear-gradient(135deg,#ffd180,#ffab91)";
+        }
+    }
+
     requestAnimationFrame(loop);
-  }
+}
 
-  dog.addEventListener("mousedown", startPet);
-  document.addEventListener("mouseup", stopPet);
+const dog = document.querySelector(".dog");
 
-  dog.addEventListener("touchstart", startPet);
-  document.addEventListener("touchend", stopPet);
+dog.addEventListener("mousedown", startPet);
+document.addEventListener("mouseup", stopPet);
 
-  loop();
+dog.addEventListener("touchstart", startPet);
+document.addEventListener("touchend", stopPet);
+document.addEventListener("touchcancel", stopPet);
+
+loop();
+
 </script>
 
 </body>
